@@ -1,6 +1,6 @@
 # Zoom PWA
 
-Install Zoom's [new Progressive Web App](https://pwa.zoom.us/wc) (PWA) on any Linux computer that has Chromium installed.
+Install Zoom's [new Progressive Web App](https://pwa.zoom.us/wc) on any Linux computer that has Chromium installed.
 
 ## Download:
 Run this command in a terminal:
@@ -17,6 +17,8 @@ After installing the Zoom PWA, the `~/zoom-pwa` folder is unnecessary and can be
 ```
 wget -qO- https://raw.githubusercontent.com/Botspot/zoom-pwa/main/install.sh | bash
 ```
+## Run Zoom:
+Menu -> Internet -> Zoom
 ## Uninstall:
 ```
 rm -f ~/.local/share/applications/*gbmplfifepjenigdepeahbecfkcalfhg*
