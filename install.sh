@@ -5,14 +5,6 @@ function error {
   exit 1
 }
 
-if ! command -v yad &>/dev/null ;then
-  echo "Installing yad..."
-  sudo apt install -y yad
-  if ! command -v yad &>/dev/null ;then
-    error "YAD failed to install somehow!"
-  fi
-fi
-
 if ! command -v git &>/dev/null ;then
   echo "Installing git..."
   sudo apt install -y git
