@@ -32,6 +32,8 @@ if command -v chromium-browser &>/dev/null;then
   browser="$(command -v chromium-browser)"
 elif command -v chromium &>/dev/null;then
   browser="$(command -v chromium)"
+elif command -v google-chrome &>/dev/null;then
+  browser="$(command -v google-chrome)"
 else
   error "You must have Chromium Browser installed to use the Zoom PWA!"
 fi
@@ -57,7 +59,7 @@ Version=1.0
 Terminal=false
 Type=Application
 Name=Zoom
-Comment=Launch the Zoom Progressive Web App with Chromium Browser
+Comment=Launch the Zoom Progressive Web App
 Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
