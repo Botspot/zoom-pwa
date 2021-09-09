@@ -1,6 +1,6 @@
 # Zoom PWA
 
-Install Zoom's new Progressive Web App (PWA) on any Linux computer that has Chromium installed.
+Install Zoom's [new Progressive Web App](https://pwa.zoom.us/wc) (PWA) on any Linux computer that has Chromium installed.
 
 ## Download:
 Run this command in a terminal:
