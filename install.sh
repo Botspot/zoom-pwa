@@ -13,12 +13,14 @@ if ! command -v git &>/dev/null ;then
   fi
 fi
 
-if [ ! -d ~/zoom-pwa ];then
-  echo "Downloading zoom-pwa repo now..."
-  cd ~/
+DIRECTORY="$(readlink -f "$(dirname "$0")")"
+
+if [ ! -d "$DIRECTORY" ] || [ "$DIRECTORY" == "$HOME" ] || [ "$0" == bash ];then
+  echo "Downloading zoom-pwa repo..."
   git clone https://github.com/Botspot/zoom-pwa || error "failed to git clone!"
+  DIRECTORY="$(pwd)/zoom-pwa"
 fi
-cd ~/zoom-pwa
+echo "Parent folder of this script: $DIRECTORY"
 
 if command -v chromium-browser &>/dev/null;then
   browser="$(command -v chromium-browser)"
@@ -31,17 +33,18 @@ else
 fi
 
 #make chromium config with zoom pre-installed
+echo "Generating Chromium config..."
 rm -rf ~/.config/Zoom-PWA
 mkdir -p ~/.config/Zoom-PWA/Default
-cp "$(pwd)"/Preferences ~/.config/Zoom-PWA/Default/Preferences
+cp "$DIRECTORY"/Preferences ~/.config/Zoom-PWA/Default/Preferences
 echo '' > ~/'.config/Zoom-PWA/First Run'
 sed -i "s+/home/pi+$HOME+g" ~/.config/Zoom-PWA/Default/Preferences
 
-#icons
+echo "Copying icons to $HOME/.local/share/icons/hicolor ..."
 mkdir -p ~/.local/share/icons/hicolor
-cp -a "$(pwd)"/icons/. ~/.local/share/icons/hicolor
+cp -a "$DIRECTORY"/icons/. ~/.local/share/icons/hicolor
 
-#menu button
+echo "Creating menu launcher..."
 rm -f ~/.local/share/applications/*gbmplfifepjenigdepeahbecfkcalfhg*
 mkdir -p ~/.local/share/applications
 #create menu launcher
@@ -51,7 +54,7 @@ Version=1.0
 Terminal=false
 Type=Application
 Name=Zoom
-Comment=Launch the Zoom Progressive Web App
+Comment=Launch the Zoom Progressive Web App with Chromium browser
 Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
