@@ -5,7 +5,7 @@ Install Zoom's [new Progressive Web App](https://pwa.zoom.us/wc) on any Linux co
 ## Download:
 Run this command in a terminal:
 ```
-git clone https://github.com/Botspot/zoom-pwa
+cd; git clone https://github.com/Botspot/zoom-pwa
 ```
 ## Install:
 ```
