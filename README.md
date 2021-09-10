@@ -9,7 +9,7 @@ git clone https://github.com/Botspot/zoom-pwa
 ```
 ## Install:
 ```
-~/zoom-pwa/install.sh
+./zoom-pwa/install.sh
 ```
 After installing the Zoom PWA, the `~/zoom-pwa` folder is unnecessary and can be removed.
 
@@ -22,7 +22,7 @@ Menu -> Internet -> Zoom
 ## Uninstall:
 ```
 rm -f ~/.local/share/applications/*gbmplfifepjenigdepeahbecfkcalfhg*
-rm -rf ~/zoom-pwa
+rm -rf ./zoom-pwa
 rm -rf ~/.config/Zoom-PWA
 ```
 
