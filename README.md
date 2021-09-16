@@ -1,8 +1,10 @@
 # Zoom PWA
-
 Install Zoom's [new Progressive Web App](https://pwa.zoom.us/wc) on any Linux computer that has Chromium installed.
 
-## Download:
+## Easily install with [Pi-Apps](https://github.com/Botspot/pi-apps):
+[![badge](https://github.com/Botspot/pi-apps/blob/master/icons/badge.png?raw=true)](https://github.com/Botspot/pi-apps)  
+
+## Manual download:
 Run this command in a terminal:
 ```
 git clone https://github.com/Botspot/zoom-pwa
