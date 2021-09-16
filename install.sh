@@ -53,7 +53,7 @@ echo "#!/usr/bin/env xdg-open
 Version=1.0
 Terminal=false
 Type=Application
-Name=Zoom
+Name=Zoom PWA
 Comment=Launch the Zoom Progressive Web App with Chromium browser
 Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
