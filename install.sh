@@ -55,7 +55,7 @@ Terminal=false
 Type=Application
 Name=Zoom PWA
 Comment=Launch the Zoom Progressive Web App with Chromium browser
-Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg
+Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg --app=https://pwa.zoom.us/wc
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
 Categories=Network;WebBrowser;
