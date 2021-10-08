@@ -50,6 +50,7 @@ else
   cp "$DIRECTORY"/ZoomPWA-firefox.zip ~/.config/Zoom-PWA
   unzip ~/.config/Zoom-PWA/ZoomPWA-firefox.zip
   mv ~/.config/Zoom-PWA/ZoomPWA-firefox/* ~/.config/Zoom-PWA/
+fi
 
 echo "Copying icons to $HOME/.local/share/icons/hicolor ..."
 mkdir -p ~/.local/share/icons/hicolor
@@ -61,33 +62,36 @@ if [ "$browser" != "firefox" ] && [ "$browser" != "firefox-esr" ];then
   mkdir -p ~/.local/share/applications
   #create menu launcher
   echo "#!/usr/bin/env xdg-open
-  [Desktop Entry]
-  Version=1.0
-  Terminal=false
-  Type=Application
-  Name=Zoom PWA
-  Comment=Launch the Zoom Progressive Web App with Chromium browser
-  Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg --app=https://pwa.zoom.us/wc
-  Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
-  StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
-  Categories=Network;WebBrowser;
-  StartupNotify=true" >> ~/.local/share/applications/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Zoom-PWA.desktop
+[Desktop Entry]
+Version=1.0
+Terminal=false
+Type=Application
+Name=Zoom PWA
+Comment=Launch the Zoom Progressive Web App with Chromium browser
+Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg --app=https://pwa.zoom.us/wc
+Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
+StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
+Categories=Network;WebBrowser;
+StartupNotify=true" >> ~/.local/share/applications/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Zoom-PWA.desktop
+  
 else
   rm -f ~/.local/share/applications/*zoom-pwa*
   mkdir -p ~/.local/share/applications
   #create menu launcher
   echo "[Desktop Entry]
-  Version=1.0
-  Name=Zoom PWA test
-  Comment=Launch the Zoom Progressive Web App with Firefox
-  Exec=bash -c 'XAPP_FORCE_GTKWINDOW_ICON=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default firefox --class ZoomPWA --profile /home/pi/.config/ZoomPWA-firefox --no-remote http://pwa.zoom.us/wc'
-  Terminal=false
-  X-MultipleArgs=false
-  Type=Application
-  Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
-  Categories=GTK;Network;
-  MimeType=text/html;text/xml;application/xhtml_xml;
-  StartupWMClass=ZoomPWA
-  StartupNotify=true" >> ~/.local/share/applications/zoom-pwa.desktop
+Version=1.0
+Name=Zoom PWA test
+Comment=Launch the Zoom Progressive Web App with Firefox
+Exec=bash -c 'XAPP_FORCE_GTKWINDOW_ICON=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default firefox --class ZoomPWA --profile /home/pi/.config/ZoomPWA-firefox --no-remote http://pwa.zoom.us/wc'
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
+Categories=GTK;Network;
+MimeType=text/html;text/xml;application/xhtml_xml;
+StartupWMClass=ZoomPWA
+StartupNotify=true" >> ~/.local/share/applications/zoom-pwa.desktop
+  
+fi
 
 echo 'Done!'
