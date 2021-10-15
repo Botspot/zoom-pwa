@@ -29,7 +29,7 @@ elif command -v chromium &>/dev/null;then
 elif command -v google-chrome &>/dev/null;then
   browser="$(command -v google-chrome)"
 else
-  error "You must have Chromium Browser installed to use the Zoom PWA!"
+  error "User error: You must have Chromium Browser installed to use the Zoom PWA!"
 fi
 
 #make chromium config with zoom pre-installed
