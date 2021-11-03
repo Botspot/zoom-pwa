@@ -17,7 +17,7 @@ DIRECTORY="$(readlink -f "$(dirname "$0")")"
 
 if [ ! -d "$DIRECTORY" ] || [ "$DIRECTORY" == "$HOME" ] || [ "$0" == bash ];then
   echo "Downloading zoom-pwa repo..."
-  rm -rf zoom-pwa
+  rm -rf zoom-pwa || sudo rm -rf zoom-pwa
   git clone https://github.com/Botspot/zoom-pwa || error "failed to git clone!"
   DIRECTORY="$(pwd)/zoom-pwa"
 fi
@@ -45,26 +45,25 @@ fi
 #make chromium config with zoom pre-installed
 if [ "$browser_type" == "chromium" ];then
   echo "Generating Chromium config..."
-  rm -rf ~/.config/Zoom-PWA
-  mkdir -p ~/.config/Zoom-PWA/Default
-  cp "$DIRECTORY"/Preferences ~/.config/Zoom-PWA/Default/Preferences
-  echo '' > ~/'.config/Zoom-PWA/First Run'
-  sed -i "s+/home/pi+$HOME+g" ~/.config/Zoom-PWA/Default/Preferences
+  rm -rf $HOME/.config/Zoom-PWA || sudo rm -rf $HOME/.config/Zoom-PWA
+  mkdir -p $HOME/.config/Zoom-PWA/Default || error "Failed to create $HOME/.config/Zoom-PWA/Default directory!"
+  cp "$DIRECTORY"/Preferences $HOME/.config/Zoom-PWA/Default/Preferences || error "Failed to copy config!"
+  echo '' > $HOME/'.config/Zoom-PWA/First Run'
+  sed -i "s+/home/pi+$HOME+g" $HOME/.config/Zoom-PWA/Default/Preferences
 else
   echo "Generating Firefox config..."
-  rm -rf ~/.config/Zoom-PWA
-  cp "$DIRECTORY"/Zoom-PWA.zip ~/.config/
-  unzip -o ~/.config/Zoom-PWA.zip -d ~/.config
+  rm -rf $HOME/.config/Zoom-PWA || sudo rm -rf $HOME/.config/Zoom-PWA
+  cp "$DIRECTORY"/Zoom-PWA.zip $HOME/.config/ || error "Failed to copy "$DIRECTORY"/Zoom-PWA.zip to $HOME/.config/!"
+  unzip -qo $HOME/.config/Zoom-PWA.zip -d $HOME/.config || error "Failed to unzip config zip!"
 fi
 
 echo "Copying icons to $HOME/.local/share/icons/hicolor ..."
-mkdir -p ~/.local/share/icons/hicolor
-cp -a "$DIRECTORY"/icons/. ~/.local/share/icons/hicolor
+mkdir -p $HOME/.local/share/icons/hicolor
+cp -a "$DIRECTORY"/icons/. $HOME/.local/share/icons/hicolor || error "Failed to copy icons!"
 
 echo "Creating menu launcher..."
 if [ "$browser_type" == "chromium" ];then
-  rm -f ~/.local/share/applications/*gbmplfifepjenigdepeahbecfkcalfhg*
-  mkdir -p ~/.local/share/applications
+  mkdir -p $HOME/.local/share/applications
   #create menu launcher
   echo "[Desktop Entry]
 Version=1.0
@@ -76,8 +75,9 @@ Exec=$browser_path --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=De
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
 Categories=Network;WebBrowser;
-StartupNotify=true" > $HOME/.local/share/applications/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Zoom-PWA.desktop
+StartupNotify=true" > $HOME/.local/share/applications/Zoom-PWA-chromium.desktop
 else
+  mkdir -p $HOME/.local/share/applications
   #create menu launcher
   echo "[Desktop Entry]
 Version=1.0
@@ -91,8 +91,7 @@ Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 Categories=GTK;Network;
 MimeType=text/html;text/xml;application/xhtml_xml;
 StartupWMClass=ZoomPWA
-StartupNotify=true" > $HOME/.local/share/applications/zoom-pwa.desktop
-
+StartupNotify=true" > $HOME/.local/share/applications/Zoom-PWA-firefox.desktop
 fi
 
 echo 'Done!'
