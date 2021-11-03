@@ -5,6 +5,11 @@ function error {
   exit 1
 }
 
+if [ $(id -u) += "0" ]; then
+  error "This script is not designed to run as root. \nPlease run this script as normal user instead."
+fi
+
+
 if ! command -v git &>/dev/null ;then
   echo "Installing git..."
   sudo apt install -y git
@@ -93,5 +98,7 @@ MimeType=text/html;text/xml;application/xhtml_xml;
 StartupWMClass=ZoomPWA
 StartupNotify=true" > $HOME/.local/share/applications/Zoom-PWA-firefox.desktop
 fi
+
+rm -rf $HOME/zoom-pwa &>/dev/null
 
 echo 'Done!'
