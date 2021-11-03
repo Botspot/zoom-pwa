@@ -17,27 +17,33 @@ DIRECTORY="$(readlink -f "$(dirname "$0")")"
 
 if [ ! -d "$DIRECTORY" ] || [ "$DIRECTORY" == "$HOME" ] || [ "$0" == bash ];then
   echo "Downloading zoom-pwa repo..."
+  rm -rf zoom-pwa
   git clone https://github.com/Botspot/zoom-pwa || error "failed to git clone!"
   DIRECTORY="$(pwd)/zoom-pwa"
 fi
 echo "Parent folder of this script: $DIRECTORY"
 
-if command -v chromium-browser &>/dev/null;then
-  browser="$(command -v chromium-browser)"
-elif command -v chromium &>/dev/null;then
-  browser="$(command -v chromium)"
-elif command -v google-chrome &>/dev/null;then
-  browser="$(command -v google-chrome)"
-elif command -v firefox &>/dev/null;then
-  browser="$(command -v firefox)"
+if command -v chromium-browser &>/dev/null;then	
+  browser_path="$(command -v chromium-browser)"
+  browser_type="chromium"
+elif command -v chromium &>/dev/null;then	
+  browser_path="$(command -v chromium)"	
+  browser_type="chromium"
+elif command -v google-chrome &>/dev/null;then	
+  browser_path="$(command -v google-chrome)"	
+  browser_type="chromium"
+elif command -v firefox &>/dev/null;then	
+  browser_path="$(command -v firefox)"	
+  browser_type="firefox"
 elif command -v firefox-esr &>/dev/null;then
-  browser="$(command -v firefox-esr)"
+  browser_path="$(command -v firefox-esr)"
+  browser_type="firefox"
 else
   error "You must have Chromium Browser or Firefox installed to use the Zoom PWA!"
 fi
 
 #make chromium config with zoom pre-installed
-if [ "$browser" != "firefox" ] && [ "$browser" != "firefox-esr" ];then
+if [ "$browser_type" == "chromium" ];then
   echo "Generating Chromium config..."
   rm -rf ~/.config/Zoom-PWA
   mkdir -p ~/.config/Zoom-PWA/Default
@@ -45,11 +51,10 @@ if [ "$browser" != "firefox" ] && [ "$browser" != "firefox-esr" ];then
   echo '' > ~/'.config/Zoom-PWA/First Run'
   sed -i "s+/home/pi+$HOME+g" ~/.config/Zoom-PWA/Default/Preferences
 else
+  echo "Generating Firefox config..."
   rm -rf ~/.config/Zoom-PWA
-  mkdir -p ~/.config/Zoom-PWA
-  cp "$DIRECTORY"/ZoomPWA-firefox.zip ~/.config/Zoom-PWA
-  unzip ~/.config/Zoom-PWA/ZoomPWA-firefox.zip
-  mv ~/.config/Zoom-PWA/ZoomPWA-firefox/* ~/.config/Zoom-PWA/
+  cp "$DIRECTORY"/Zoom-PWA.zip ~/.config/
+  unzip -o ~/.config/Zoom-PWA.zip -d ~/.config
 fi
 
 echo "Copying icons to $HOME/.local/share/icons/hicolor ..."
@@ -57,32 +62,28 @@ mkdir -p ~/.local/share/icons/hicolor
 cp -a "$DIRECTORY"/icons/. ~/.local/share/icons/hicolor
 
 echo "Creating menu launcher..."
-if [ "$browser" != "firefox" ] && [ "$browser" != "firefox-esr" ];then
+if [ "$browser_type" == "chromium" ];then
   rm -f ~/.local/share/applications/*gbmplfifepjenigdepeahbecfkcalfhg*
   mkdir -p ~/.local/share/applications
   #create menu launcher
-  echo "#!/usr/bin/env xdg-open
-[Desktop Entry]
+  echo "[Desktop Entry]
 Version=1.0
 Terminal=false
 Type=Application
 Name=Zoom PWA
 Comment=Launch the Zoom Progressive Web App with Chromium browser
-Exec=$browser --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg --app=https://pwa.zoom.us/wc
+Exec=$browser_path --user-data-dir=$HOME/.config/Zoom-PWA --profile-directory=Default --app-id=gbmplfifepjenigdepeahbecfkcalfhg --app=https://pwa.zoom.us/wc
 Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 StartupWMClass=crx_gbmplfifepjenigdepeahbecfkcalfhg
 Categories=Network;WebBrowser;
-StartupNotify=true" >> ~/.local/share/applications/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Zoom-PWA.desktop
-  
+StartupNotify=true" > $HOME/.local/share/applications/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Zoom-PWA.desktop
 else
-  rm -f ~/.local/share/applications/*zoom-pwa*
-  mkdir -p ~/.local/share/applications
   #create menu launcher
   echo "[Desktop Entry]
 Version=1.0
 Name=Zoom PWA test
 Comment=Launch the Zoom Progressive Web App with Firefox
-Exec=bash -c 'XAPP_FORCE_GTKWINDOW_ICON=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default firefox --class ZoomPWA --profile /home/pi/.config/ZoomPWA-firefox --no-remote http://pwa.zoom.us/wc'
+Exec=bash -c 'rm -f $HOME/.config/Zoom-PWA/serviceworker.txt && XAPP_FORCE_GTKWINDOW_ICON=$HOME/.local/share/icons/hicolor/48x48/apps/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default.png $browser_path --class Zoom-PWA --profile $HOME/.config/Zoom-PWA --no-remote https://pwa.zoom.us/wc'
 Terminal=false
 X-MultipleArgs=false
 Type=Application
@@ -90,8 +91,8 @@ Icon=chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default
 Categories=GTK;Network;
 MimeType=text/html;text/xml;application/xhtml_xml;
 StartupWMClass=ZoomPWA
-StartupNotify=true" >> ~/.local/share/applications/zoom-pwa.desktop
-  
+StartupNotify=true" > $HOME/.local/share/applications/zoom-pwa.desktop
+
 fi
 
 echo 'Done!'
