@@ -81,7 +81,7 @@ else
   #create menu launcher
   echo "[Desktop Entry]
 Version=1.0
-Name=Zoom PWA test
+Name=Zoom PWA
 Comment=Launch the Zoom Progressive Web App with Firefox
 Exec=bash -c 'rm -f $HOME/.config/Zoom-PWA/serviceworker.txt && XAPP_FORCE_GTKWINDOW_ICON=$HOME/.local/share/icons/hicolor/48x48/apps/chrome-gbmplfifepjenigdepeahbecfkcalfhg-Default.png $browser_path --class Zoom-PWA --profile $HOME/.config/Zoom-PWA --no-remote https://pwa.zoom.us/wc'
 Terminal=false
