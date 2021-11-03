@@ -39,7 +39,7 @@ elif command -v firefox-esr &>/dev/null;then
   browser_path="$(command -v firefox-esr)"
   browser_type="firefox"
 else
-  error "You must have Chromium Browser or Firefox installed to use the Zoom PWA!"
+  error "User error: You must have Chromium Browser or Firefox installed to use the Zoom PWA!"
 fi
 
 #make chromium config with zoom pre-installed
